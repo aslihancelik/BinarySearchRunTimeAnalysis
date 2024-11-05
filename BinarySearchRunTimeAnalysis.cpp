@@ -58,48 +58,69 @@ int sequentialSearch(const vector<int>& vec, int target) {
 }
 
 int main() {
-    std::vector<int> vec = { 1, 6, 3, 4, 5, 2, 7, 8, 9, 10 };
-    int target = 6;
 
-    // Sort the vector for binary search
+    // Step 1: Initialize random number generator
+    srand(time(0));
+
+    // Step 2: Fill vector with random numbers between 1 and 100
+    vector<int> vec;
+    for (int i = 0; i < 10; i++) {  // Small vector for test purposes
+        vec.push_back(rand() % 100 + 1);
+    }
+
+    // Step 3: Sort the vector
     sort(vec.begin(), vec.end());
 
-    // Display vector contents
+    // Step 4: Generate a random target
+    int target = rand() % 100 + 1;
+
+    // Step 5: Write contents of the vector
     cout << "Contents of vector: ";
     for (int val : vec) {
         cout << val << " ";
     }
     cout << endl;
 
-
-    int result = recursiveBinarySearch(vec, 0, vec.size() - 1, target);
-
-    if (result != -1) {
-        cout << "Element found at index: " << result << endl;
+    // Recursive Binary Search
+    cout << "\n// Recursive Binary Search\n";
+    int index = recursiveBinarySearch(vec, 0, vec.size() - 1, target);
+    if (index != -1) {
+        cout << "Target " << target << " found at location " << index << " using Recursive Binary Search.\n";
     }
     else {
-        cout << "Element not found." << endl;
+        cout << "Target " << target << " was not found using Recursive Binary Search.\n";
     }
 
-    target = 5;
-    result = iterativeBinarySearch(vec, target);
-
-    if (result != -1) {
-        cout << "Element found at index: " << result << endl;
+    // Iterative Binary Search
+    cout << "\n// Iterative Binary Search\n";
+    index = iterativeBinarySearch(vec, target);
+    if (index != -1) {
+        cout << "Target " << target << " found at location " << index << " using Iterative Binary Search.\n";
     }
     else {
-        cout << "Element not found." << endl;
+        cout << "Target " << target << " was not found using Iterative Binary Search.\n";
     }
 
-    target = 7;
-    result = sequentialSearch(vec, target);
-
-    if (result != -1) {
-        cout << "Element found at index: " << result << endl;
+    // Sequential Search
+    cout << "\n// Sequential Search\n";
+    index = sequentialSearch(vec, target);
+    if (index != -1) {
+        cout << "Target " << target << " found at location " << index << " using Sequential Search.\n";
     }
     else {
-        cout << "Element not found." << endl;
+        cout << "Target " << target << " was not found using Sequential Search.\n";
     }
+
+    return 0;
+
+
+
+
+
+
+
+
+
 
     return 0;
 }
