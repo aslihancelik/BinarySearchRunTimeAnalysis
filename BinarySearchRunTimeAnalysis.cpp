@@ -59,59 +59,63 @@ int sequentialSearch(const vector<int>& vec, int target) {
 
 int main() {
 
-    // Step 1: Initialize random number generator
     srand(time(0));
 
-    // Step 2: Fill vector with random numbers between 1 and 100
-    vector<int> vec;
-    for (int i = 0; i < 10; i++) {  // Small vector for test purposes
-        vec.push_back(rand() % 100 + 1);
-    }
+    // Vector of test sizes
+    vector<int> test_sizes = { 5000, 50000, 100000, 150000, 200000 };
 
-    // Step 3: Sort the vector
-    sort(vec.begin(), vec.end());
+    // Loop through each test size
+    for (int N : test_sizes) {
+        double SumRBS = 0;   // Accumulator for Recursive Binary Search time
+        double SumIBS = 0;   // Accumulator for Iterative Binary Search time
+        double SumSeqS = 0;  // Accumulator for Sequential Search time
 
-    // Step 4: Generate a random target
-    int target = rand() % 100 + 1;
+        // Run experiment 10 times for the current size of N
+        for (int i = 0; i < 10; i++) {
+            // Generate vector with N random numbers
+            vector<int> vec(N);
+            for (int j = 0; j < N; j++) {
+                vec[j] = rand() % 100 + 1;
+            }
 
-    // Step 5: Write contents of the vector
-    cout << "Contents of vector: ";
-    for (int val : vec) {
-        cout << val << " ";
-    }
-    cout << endl;
+            // Sort the vector for binary search
+            sort(vec.begin(), vec.end());
 
-    // Recursive Binary Search
-    cout << "\n// Recursive Binary Search\n";
-    int index = recursiveBinarySearch(vec, 0, vec.size() - 1, target);
-    if (index != -1) {
-        cout << "Target " << target << " found at location " << index << " using Recursive Binary Search.\n";
-    }
-    else {
-        cout << "Target " << target << " was not found using Recursive Binary Search.\n";
-    }
+            // Generate a random target value
+            int target = rand() % 100 + 1;
 
-    // Iterative Binary Search
-    cout << "\n// Iterative Binary Search\n";
-    index = iterativeBinarySearch(vec, target);
-    if (index != -1) {
-        cout << "Target " << target << " found at location " << index << " using Iterative Binary Search.\n";
-    }
-    else {
-        cout << "Target " << target << " was not found using Iterative Binary Search.\n";
-    }
+            // Recursive Binary Search timing
+            auto start = high_resolution_clock::now();
+            recursiveBinarySearch(vec, 0, vec.size() - 1, target);
+            auto end = high_resolution_clock::now();
+            duration<double, micro> durationRBS = end - start;
+            SumRBS += static_cast<double>(durationRBS.count());
 
-    // Sequential Search
-    cout << "\n// Sequential Search\n";
-    index = sequentialSearch(vec, target);
-    if (index != -1) {
-        cout << "Target " << target << " found at location " << index << " using Sequential Search.\n";
-    }
-    else {
-        cout << "Target " << target << " was not found using Sequential Search.\n";
+            // Iterative Binary Search timing
+            start = high_resolution_clock::now();
+            iterativeBinarySearch(vec, target);
+            end = high_resolution_clock::now();
+            duration<double, micro> durationIBS = end - start;
+            SumIBS += static_cast<double>(durationIBS.count());
+
+            // Sequential Search timing
+            start = high_resolution_clock::now();
+            sequentialSearch(vec, target);
+            end = high_resolution_clock::now();
+            duration<double, micro> durationSeqS = end - start;
+            SumSeqS += static_cast<double>(durationSeqS.count());
+        }
+
+        // Output average times
+        cout << "For N = " << N << ":\n";
+        cout << "Average Running Time for Recursive Binary Search in microseconds is " << SumRBS / 10 << endl;
+        cout << "Average Running Time for Iterative Binary Search in microseconds is " << SumIBS / 10 << endl;
+        cout << "Average Running Time for Sequential Search in microseconds is " << SumSeqS / 10 << endl;
+        cout << "------------------------------------------------------\n";
     }
 
     return 0;
+    
 
 
 
@@ -120,7 +124,4 @@ int main() {
 
 
 
-
-
-    return 0;
 }
