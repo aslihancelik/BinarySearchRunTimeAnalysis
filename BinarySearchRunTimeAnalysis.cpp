@@ -58,8 +58,20 @@ int sequentialSearch(const vector<int>& vec, int target) {
 }
 
 int main() {
-    std::vector<int> vec = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    std::vector<int> vec = { 1, 6, 3, 4, 5, 2, 7, 8, 9, 10 };
     int target = 6;
+
+    // Sort the vector for binary search
+    sort(vec.begin(), vec.end());
+
+    // Display vector contents
+    cout << "Contents of vector: ";
+    for (int val : vec) {
+        cout << val << " ";
+    }
+    cout << endl;
+
+
     int result = recursiveBinarySearch(vec, 0, vec.size() - 1, target);
 
     if (result != -1) {
