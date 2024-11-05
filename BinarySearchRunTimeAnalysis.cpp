@@ -62,7 +62,7 @@ int main() {
     srand(time(0));
 
     // Vector of test sizes
-    vector<int> test_sizes = { 5000, 50000, 100000, 150000, 200000 };
+    vector<int> test_sizes = { 5000, 50000, 100000, 150000, 200000, 1000000 };
 
     // Loop through each test size
     for (int N : test_sizes) {
@@ -116,12 +116,5 @@ int main() {
 
     return 0;
     
-
-
-
-
-
-
-
 
 }
